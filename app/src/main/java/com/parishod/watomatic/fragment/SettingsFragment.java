@@ -10,6 +10,8 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
+import android.widget.Toast;
+
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.parishod.watomatic.BuildConfig;
@@ -48,6 +50,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (autoStartPref != null) {
             autoStartPref.setOnPreferenceClickListener(preference -> {
                 checkAutoStartPermission();
+                return true;
+            });
+        }
+
+        SwitchPreference rootPref = findPreference("pref_root_enabled");
+        if (rootPref != null) {
+            rootPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                if (newValue.equals(true)) {
+                    new Thread(() -> {
+                        boolean isRoot = com.parishod.watomatic.model.utils.RootHelper.isRootAvailable();
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                if (!isRoot) {
+                                    Toast.makeText(getContext(), "Root not available or denied", Toast.LENGTH_SHORT).show();
+                                    rootPref.setChecked(false);
+                                    PreferencesManager.getPreferencesInstance(getContext()).setRootEnabled(false);
+                                } else {
+                                    Toast.makeText(getContext(), "Root access granted", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }).start();
+                } else {
+                    // Revert the root optimizations when turned off
+                    com.parishod.watomatic.model.utils.RootHelper.removeRootOptimizations(getContext());
+                }
                 return true;
             });
         }

@@ -45,6 +45,11 @@
         <Preference android:title="@string/enable_auto_start_label"
             android:key="@string/pref_auto_start_permission" />
 
+        <SwitchPreference android:title="@string/enable_root_optimizations_label"
+            android:key="pref_root_enabled"
+            android:summary="@string/enable_root_optimizations_summary" />
+
+
     </PreferenceCategory>
 
 </PreferenceScreen>

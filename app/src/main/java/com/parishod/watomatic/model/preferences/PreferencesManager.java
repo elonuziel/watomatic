@@ -734,4 +734,16 @@ public class PreferencesManager {
         editor.putLong(KEY_QUOTA_NOTIFICATION_LAST_SHOWN, timestamp);
         editor.apply();
     }
+
+    private final String KEY_ROOT_ENABLED = "pref_root_enabled";
+
+    public boolean isRootEnabled() {
+        return _sharedPrefs.getBoolean(KEY_ROOT_ENABLED, false);
+    }
+
+    public void setRootEnabled(boolean enabled) {
+        SharedPreferences.Editor editor = _sharedPrefs.edit();
+        editor.putBoolean(KEY_ROOT_ENABLED, enabled);
+        editor.apply();
+    }
 }
