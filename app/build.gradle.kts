@@ -80,6 +80,8 @@ android {
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.preference.ktx)
+    implementation(libs.libsu.core)
+
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.room.runtime)
