@@ -104,6 +104,8 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
+        // Apply Root Optimizations if enabled
+        com.parishod.watomatic.model.utils.RootHelper.applyRootOptimizations(this);
         //START_STICKY  to order the system to restart your service as soon as possible when it was killed.
         return START_STICKY;
     }
@@ -593,6 +595,8 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
+        // Apply Root Optimizations if enabled
+        com.parishod.watomatic.model.utils.RootHelper.applyRootOptimizations(this);
         Toast.makeText(getApplicationContext(), "Listener connected!", Toast.LENGTH_SHORT).show();
     }
 

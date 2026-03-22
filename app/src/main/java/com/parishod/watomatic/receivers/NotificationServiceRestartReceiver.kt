@@ -13,17 +13,23 @@ class NotificationServiceRestartReceiver : BroadcastReceiver() {
         val action = intent?.action
         if (action?.equals(Intent.ACTION_BOOT_COMPLETED) == true) {
             context?.let {
+                // Apply Root Optimizations if enabled
+                com.parishod.watomatic.model.utils.RootHelper.applyRootOptimizations(context)
+
                 val enabledPackages = Settings.Secure.getString(
                     context.contentResolver,
                     "enabled_notification_listeners"
                 )
-                if (enabledPackages?.contains(context.packageName) == true) {
+                val isRootEnabled = com.parishod.watomatic.model.preferences.PreferencesManager.getPreferencesInstance(context).isRootEnabled
+                
+                if (enabledPackages?.contains(context.packageName) == true || isRootEnabled) {
                     // Trigger a rebind
                     val cn = ComponentName(context, NotificationService::class.java)
                     NotificationService.requestRebind(cn)
-                    Log.d("NLS", "Requesting rebind to Notification Listener")
+                    Log.d("NLS", "Requesting rebind to Notification Listener. Root Enabled: $isRootEnabled")
                 }
             }
         }
     }
+
 }
