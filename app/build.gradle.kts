@@ -96,7 +96,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     ksp(libs.room.compiler)
     implementation(libs.core.ktx)
-    implementation(libs.kotlin.stdlib.jdk7)
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
